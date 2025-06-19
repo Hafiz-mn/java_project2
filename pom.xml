@@ -5,7 +5,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
-  <artifactId>helloworld</artifactId>
+  <artifactId>javaapp</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
@@ -23,4 +23,3 @@
     </plugins>
   </build>
 </project>
-
