@@ -1,0 +1,29 @@
+name: Build and Deploy to Nexus
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Build with Maven
+      run: mvn clean package
+
+    - name: Deploy to Nexus
+      run: mvn deploy -DaltDeploymentRepository=nexus::default::${{ secrets.NEXUS_URL }}
+      env:
+        MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
