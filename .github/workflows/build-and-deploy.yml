@@ -21,9 +21,20 @@ jobs:
     - name: Build with Maven
       run: mvn clean package
 
+    - name: Configure Maven settings.xml
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml <<EOF
+        <settings>
+          <servers>
+            <server>
+              <id>nexus</id>
+              <username>${{ secrets.NEXUS_USERNAME }}</username>
+              <password>${{ secrets.NEXUS_PASSWORD }}</password>
+            </server>
+          </servers>
+        </settings>
+        EOF
+
     - name: Deploy to Nexus
       run: mvn deploy -DaltDeploymentRepository=nexus::default::${{ secrets.NEXUS_URL }}
-      env:
-        MAVEN_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
